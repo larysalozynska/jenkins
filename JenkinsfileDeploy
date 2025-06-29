@@ -7,7 +7,8 @@ pipeline {
             steps {
                 git branch: 'main', url: 'https://github.com/larysalozynska/jenkins.git'
             }
-                
+        }
+
         stage('Install Apache') {
             steps {
                 sh '''
@@ -17,6 +18,7 @@ pipeline {
                     sudo systemctl start apache2
                 '''
             }
+        }
 
         stage('Test Installation') {
             steps {
@@ -25,6 +27,7 @@ pipeline {
                     sudo systemctl status apache2
                 '''
             }
+        }
 
         stage('Verification of Apache deployment') {
             steps {
@@ -33,16 +36,15 @@ pipeline {
                     curl -I http://localhost
                 '''
             }
-
-        post {
-          success {
-            echo 'Deployment pipeline completed.'
-        }
-          failure {
-            echo 'Something went wrong.'
-        }
-              
         }
     }
-}
+
+    post {
+        success {
+            echo 'Deployment pipeline completed.'
+        }
+        failure {
+            echo 'Something went wrong.'
+        }
+    }
 }
