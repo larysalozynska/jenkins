@@ -1,0 +1,47 @@
+pipeline {
+    agent { label 'apache' }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/larysalozynska/jenkins.git'
+            }
+                
+        stage('Install Apache') {
+            steps {
+                sh '''
+                    sudo apt update
+                    sudo apt install -y apache2
+                    sudo systemctl enable apache2
+                    sudo systemctl start apache2
+                '''
+            }
+
+        stage('Test Installation') {
+            steps {
+                sh '''
+                    echo 'Checking the Apache status'
+                    sudo systemctl status apache2
+                '''
+            }
+
+        stage('Verification of Apache deployment') {
+            steps {
+                sh '''
+                    echo 'Verification of server status'
+                    curl -I http://localhost
+                '''
+            }
+
+        post {
+          success {
+            echo 'Deployment pipeline completed.'
+        }
+          failure {
+            echo 'Something went wrong.'
+        }
+              
+        }
+    }
+}
