@@ -36,6 +36,7 @@ pipeline {
                     curl -I http://localhost
                 '''
             }
+        }
         
         stage('Check OS and Apache Errors') {
             steps {
