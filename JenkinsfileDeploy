@@ -49,10 +49,10 @@ pipeline {
 
                     if [ -f "$LOG_FILE" ]; then
                       echo "4xx Errors:"
-                      grep " 4[0-9][0-9] " $LOG_FILE || echo "No 4xx errors"
+                      sudo grep " 4[0-9][0-9] " $LOG_FILE || echo "No 4xx errors"
 
                       echo "5xx Errors:"
-                      grep " 5[0-9][0-9] " $LOG_FILE || echo "No 5xx errors"
+                      sudo grep " 5[0-9][0-9] " $LOG_FILE || echo "No 5xx errors"
                     else
                       echo "Apache log not found: $LOG_FILE"
                     fi
