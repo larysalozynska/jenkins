@@ -36,6 +36,27 @@ pipeline {
                     curl -I http://localhost
                 '''
             }
+        
+        stage('Check OS and Apache Errors') {
+            steps {
+                sh '''
+                    echo "OS Info -> "
+                    uname -a
+
+                    echo "Searching for HTTP 4xx/5xx errors..."
+                    LOG_FILE="/var/log/apache2/access.log"
+
+                    if [ -f "$LOG_FILE" ]; then
+                      echo "4xx Errors:"
+                      grep "400" $LOG_FILE || echo "No errors"
+
+                      echo "5xx Errors:"
+                      grep "500" $LOG_FILE || echo "No errors"
+                    else
+                      echo "Apache log not found: $LOG_FILE"
+                    fi
+                '''
+            }
         }
     }
 
