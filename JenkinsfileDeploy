@@ -60,7 +60,7 @@ pipeline {
             }
         }
 
-    } // <- closing stages block
+    }
 
     post {
         success {
